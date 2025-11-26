@@ -120,7 +120,7 @@ function App() {
       {selected && (
         <>
           <div className="glass receipt card" ref={pdfRef}>
-            <h2 className="receipt-title">Shah Satnam Ji Girls' Schoo</h2>
+            <h2 className="receipt-title">Shah Satnam Ji Girls' School</h2>
             <p className="small-sub">
             Shah Satnam JI Dham Nejia Khera
 Near Shah Satnam Ji Pura,
