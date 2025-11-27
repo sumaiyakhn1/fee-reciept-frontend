@@ -88,6 +88,7 @@ function App() {
 
       {/* HEADER */}
       <header className="header">
+        <br/><br/>
         <h1>OkieDokie Fee Receipt Portal</h1>
         <p className="subtitle">Professional • Fast • Accurate</p>
       </header>
