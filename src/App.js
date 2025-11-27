@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import html2pdf from "html2pdf.js";
 import "./App.css";
@@ -10,29 +10,36 @@ function App() {
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [visitors, setVisitors] = useState(null);
 
   const pdfRef = useRef();
 
-  // SEARCH STUDENTS
+  // Visitor Counter
+  useEffect(() => {
+    axios.get(`${API_BASE}/visit`)
+      .then(res => setVisitors(res.data.visitors))
+      .catch(() => {});
+  }, []);
+
+  // Search
   const search = async () => {
     if (!query.trim()) return;
-
     setSelected(null);
     setLoading(true);
 
     try {
       const res = await axios.get(`${API_BASE}/search?query=${query}`);
       setResults(res.data.results || []);
-    } catch (err) {
+    } catch {
       alert("Search failed");
     }
+
     setLoading(false);
   };
 
-  // LOAD RECEIPT
+  // Load Receipt
   const loadReceipt = async (admNo) => {
     setLoading(true);
-
     try {
       const res = await axios.get(`${API_BASE}/receipt/adm/${admNo}`);
       setSelected(res.data);
@@ -42,7 +49,7 @@ function App() {
     setLoading(false);
   };
 
-  // DOWNLOAD PDF
+  // Download PDF
   const downloadPDF = () => {
     html2pdf()
       .set({
@@ -57,6 +64,27 @@ function App() {
 
   return (
     <div className="page">
+
+      {/* VISITOR BADGE (TOP RIGHT) */}
+      <div className="visitor-badge">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="eye-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+
+        <span id="visitorCount">
+          {visitors !== null ? visitors : "..."}
+        </span>
+      </div>
 
       {/* HEADER */}
       <header className="header">
@@ -102,8 +130,7 @@ function App() {
                   <td>{r["Mobile No"]}</td>
                   <td>{r.session}</td>
                   <td>
-                    <button
-                      className="open-btn"
+                    <button className="open-btn"
                       onClick={() => loadReceipt(r["Adm No"])}
                     >
                       Open
@@ -122,16 +149,14 @@ function App() {
           <div className="glass receipt card" ref={pdfRef}>
             <h2 className="receipt-title">Shah Satnam Ji Girls' School</h2>
             <p className="small-sub">
-            Shah Satnam JI Dham Nejia Khera
-Near Shah Satnam Ji Pura,
-Sirsa, Haryana, 125055 
-              <br />
+              Shah Satnam JI Dham Nejia Khera<br />
+              Near Shah Satnam Ji Pura,<br />
+              Sirsa, Haryana, 125055 <br />
               shahsatnamjigirlsschool.org
             </p>
 
             <h3 className="section-title">Fee Receipt</h3>
 
-            {/* DETAILS GRID */}
             <div className="details-grid">
               <span>Receipt No</span><b>{selected.receipt_no}</b>
               <span>Date</span><b>{selected.date}</b>
@@ -155,7 +180,6 @@ Sirsa, Haryana, 125055
               <b className="full">{selected.address}</b>
             </div>
 
-            {/* FEE TABLE */}
             <table className="fee-table">
               <thead>
                 <tr>
@@ -182,7 +206,6 @@ Sirsa, Haryana, 125055
               </tbody>
             </table>
 
-            {/* PAYMENT INFO */}
             <div className="payment-info">
               <p><b>Payment Mode:</b> {selected.method}</p>
               <p><b>Ref No:</b> {selected.payment_details}</p>
@@ -191,7 +214,6 @@ Sirsa, Haryana, 125055
               <p><b>Remarks:</b> {selected.remarks}</p>
             </div>
 
-            {/* CLERK */}
             <div className="clerk">
               <b>{selected.user}</b>
               <p>Fees Clerk</p>

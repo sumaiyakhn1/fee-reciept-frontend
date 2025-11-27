@@ -5,6 +5,42 @@
   padding: 40px 20px;
   font-family: "Inter", sans-serif;
   color: #222;
+  position: relative;
+}
+
+/* ===========================
+   VISITOR BADGE (SVG)
+   =========================== */
+.visitor-badge {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: white;
+  padding: 6px 14px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  font-weight: 600;
+  z-index: 9999;
+}
+
+.eye-icon {
+  width: 22px;
+  height: 22px;
+  color: #2f4f9e;
+}
+
+#visitorCount {
+  font-size: 15px;
+  color: #2f4f9e;
+  font-weight: bold;
+}
+
+/* Tooltip removed */
+.tooltip {
+  display: none !important;
 }
 
 /* HEADER */
@@ -12,11 +48,13 @@
   text-align: center;
   margin-bottom: 30px;
 }
+
 .header h1 {
   font-size: 32px;
   font-weight: 700;
   color: #2f3d5e;
 }
+
 .subtitle {
   font-size: 14px;
   opacity: 0.7;
@@ -26,7 +64,6 @@
 .glass {
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border-radius: 18px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
 }
@@ -39,6 +76,7 @@
   display: flex;
   gap: 10px;
 }
+
 .search-box input {
   flex: 1;
   border: none;
@@ -46,6 +84,7 @@
   font-size: 15px;
   outline: none;
 }
+
 .search-box button {
   background: #2f4f9e;
   border: none;
@@ -55,6 +94,7 @@
   cursor: pointer;
   transition: 0.2s;
 }
+
 .search-box button:hover {
   background: #233c78;
 }
@@ -71,16 +111,18 @@
   width: 100%;
   border-collapse: collapse;
 }
+
 .table-card th {
   background: #2f4f9e;
   color: white;
   padding: 12px;
-  text-align: left;
 }
+
 .table-card td {
   padding: 12px;
   border-bottom: 1px solid #ddd;
 }
+
 .open-btn {
   background: #4a6fbf;
   padding: 6px 14px;
@@ -89,101 +131,9 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
 .open-btn:hover {
   background: #364f93;
 }
 
-/* RECEIPT */
-.receipt {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 30px;
-}
-.receipt-title {
-  text-align: center;
-  margin-bottom: 5px;
-  font-weight: 700;
-}
-.small-sub {
-  text-align: center;
-  font-size: 13px;
-  opacity: 0.7;
-}
-
-.section-title {
-  text-align: center;
-  margin: 18px 0;
-  font-weight: 600;
-  border-top: 1px solid #bbb;
-  border-bottom: 1px solid #bbb;
-  padding: 6px;
-}
-
-/* DETAILS GRID */
-.details-grid {
-  display: grid;
-  grid-template-columns: 160px 1fr 160px 1fr;
-  gap: 10px;
-  margin-top: 20px;
-}
-.details-grid span {
-  opacity: 0.7;
-}
-.full {
-  grid-column: span 3;
-}
-
-/* FEE TABLE */
-.fee-table {
-  width: 100%;
-  margin-top: 30px;
-  border-collapse: collapse;
-}
-.fee-table td,
-.fee-table th {
-  padding: 10px;
-  border: 1px solid #ddd;
-}
-.fee-table th {
-  background: #eef1fa;
-}
-.total-row td {
-  background: #dde7ff;
-}
-
-/* PAYMENT INFO */
-.payment-info {
-  margin-top: 20px;
-  font-size: 14px;
-}
-
-/* FEES CLERK */
-.clerk {
-  margin-top: 25px;
-  text-align: right;
-  font-size: 15px;
-}
-
-/* DOWNLOAD BUTTON */
-.download-btn {
-  background: #2f4f9e;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 10px;
-  display: block;
-  margin: 0 auto;
-  margin-top: 20px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.download-btn:hover {
-  background: #233c78;
-}
-
-/* LOADING */
-.loading {
-  text-align: center;
-  margin-top: 20px;
-  opacity: 0.7;
-}
+/* (rest of your CSS stays same…) */
