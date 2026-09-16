@@ -3,7 +3,7 @@ import axios from "axios";
 import html2pdf from "html2pdf.js";
 import "./App.css";
 
-const API_BASE = "https://fee-reciept-backend.onrender.com";
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:8000";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -86,24 +86,27 @@ function App() {
         </span>
       </div>
 
-      {/* HEADER */}
-      <header className="header">
-        <br/><br/>
-        <h1>OkieDokie Fee Receipt Portal</h1>
-        <p className="subtitle">Professional • Fast • Accurate</p>
-      </header>
+      {/* HEADER & SEARCH BAR (Only shown when no receipt is selected) */}
+      {!selected && (
+        <>
+          <header className="header">
+            <img src="/logo.svg" alt="OkieDokie Logo" className="portal-logo" />
+            <h1>OkieDokie Fee Receipt Portal</h1>
+            <p className="subtitle">Professional • Fast • Accurate</p>
+          </header>
 
-      {/* SEARCH BAR */}
-      <div className="search-box glass">
-        <input
-          type="text"
-          placeholder="Search by Name / Admission Number / Phone"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && search()}
-        />
-        <button onClick={search}>Search</button>
-      </div>
+          <div className="search-box glass">
+            <input
+              type="text"
+              placeholder="Search by Name / Admission Number / Phone"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && search()}
+            />
+            <button onClick={search}>Search</button>
+          </div>
+        </>
+      )}
 
       {loading && <p className="loading">Loading…</p>}
 
@@ -147,14 +150,29 @@ function App() {
       {/* RECEIPT VIEW */}
       {selected && (
         <>
+          <div className="receipt-actions-top">
+            <button className="back-btn" onClick={() => setSelected(null)}>
+              ← Back
+            </button>
+          </div>
+
           <div className="glass receipt card" ref={pdfRef}>
-            <h2 className="receipt-title">Shah Satnam Ji Girls' School</h2>
-            <p className="small-sub">
-              Shah Satnam JI Dham Nejia Khera<br />
-              Near Shah Satnam Ji Pura,<br />
-              Sirsa, Haryana, 125055 <br />
-              shahsatnamjigirlsschool.org
-            </p>
+            <div className="receipt-header-flex">
+              <img
+                src="/images-removebg-preview (1).png"
+                alt="College Logo"
+                className="receipt-logo-left"
+              />
+              <div className="receipt-header-text">
+                <h2 className="receipt-title">Shah Satnam Ji Girls College</h2>
+                <p className="small-sub">
+                  Shah Satnam Ji Dham Nejia Khera<br />
+                  Near Shah Satnam Ji Pura, Sirsa, Haryana - 125055<br />
+                  Ph: 01666238602 | Email: ssgians1@gmail.com<br />
+                  shahsatnamjigirlscollege.com
+                </p>
+              </div>
+            </div>
 
             <h3 className="section-title">Fee Receipt</h3>
 
@@ -169,13 +187,12 @@ function App() {
               <span>Course</span><b>{selected.course}</b>
 
               <span>Father's Name</span><b>{selected.father_name}</b>
-              <span>Roll No</span><b>{selected.roll_no}</b>
-
               <span>Mobile</span><b>{selected.mobile}</b>
-              <span>Aadhar No</span><b>{selected.aadhar}</b>
 
-              <span>Caste</span><b>{selected.caste}</b>
+              <span>Aadhar No</span><b>{selected.aadhar}</b>
               <span>Status</span><b>{selected.status}</b>
+
+              {selected.caste && <><span>Caste</span><b>{selected.caste}</b></>}
 
               <span>Address</span>
               <b className="full">{selected.address}</b>
@@ -221,9 +238,14 @@ function App() {
             </div>
           </div>
 
-          <button className="download-btn" onClick={downloadPDF}>
-            Download PDF
-          </button>
+          <div className="button-group">
+            <button className="back-btn" onClick={() => setSelected(null)}>
+              ← Back
+            </button>
+            <button className="download-btn" onClick={downloadPDF}>
+              Download PDF
+            </button>
+          </div>
         </>
       )}
     </div>
